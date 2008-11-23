@@ -13,93 +13,150 @@
 </head>
 <body>
 
-<p>This is the initial web content for your project.  Please customize
-this to fit your project.  You don't need to answer all these questions
-or follow this exact format, but we do like to see this kind of
-information in any project.
+<!-- You can add a "Highlights:" line to the top of all web pages by adding a file www/project_highlights.html -->
+
+<p>
+The argouml-enki project provides integration between ArgoUML and the
+<a href="http://pub.eigenbase.org/wiki/Enki">Enki</a> repository
+implementation for DBMS persistence of UML models via <a
+href="http://www.hibernate.org">Hibernate</a>.
 </p>
 
-<p>Your project is visible to all users now, so &quot;putting on a good face&quot; by fixing up this page might be your first priority.
-</p>
+<p>
+The project is currently in a very early state and is not yet ready
+for end users.  It may be of interest to developers with backgrounds
+in DBMS and object/relational mapping technology, particularly those
+interested in eventually developing ArgoUML capabilities related to
 
 <ul>
-<li>This index.html will be used if and only if you have the "Use
-Project Home Page" option checked on the "Administer Project" page
-(click the "Admin" tab).</li>
-
-<li>To edit this file, check out your project via Subversion and edit trunk/www/index.html.
-
-<li>You can 'svn add' and commit other files under the project's "www"
-directory and they will published to your project web site.</li>
-
-<li>Also, consider starting a thread in the "dev" mailing list to get
-these discussion started.  A good one is an "introduction" thread where
-people post messages about themselves and their interest in the
-project.</li>
-
-<li>You can add a "Highlights:" line to the top of all web pages by adding a file www/project_highlights.html </Li>
+<li>support for accessing very large models</li>
+<li>multi-user online sharing of model instances</li>
+<li>transactional edits</li>
+<li>implementation of updated OMG standards for MOF, JMI, UML, and XMI</li>
 </ul>
-
+</p>
 
 <h3>Mission</h3>
 
-<p>What is the goal of this project?
-</p>
-
-<p>What is the scope of this project?
-</p>
-
-<p>For example:</p>
-
-<ul>
-<li>Develop just enough functionality to scratch a particular itch</li>
-<li>Build a tool just like XYZ, but less broken</li>
-<li>Build the best XYZ-tool ever!</li>
-</ul>
-
-
-<p>What are high-level features you are sure to build?
-</p>
+<p>
+The <strong>primary goal</strong> of the project is to add a mode to
+ArgoUML in which UML 1.4 model instances are manipulated directly in a
+DBMS repository; this mode will be an alternative to the current
+default ArgoUML mode in which model instances are fully loaded into
+memory via XMI import.
 <ul>
 
-<li>What would you write on a billboard about your project? Users
-might only look for a few seconds.</li>
+<li>
+<strong>Must-have scope for concurrency</strong> is support for
+single-writer with multiple readers (assuming an underlying DBMS with
+multi-version concurrency control capability).
+</li>
 
-<li>Use the issue tracker to track features and enhancement
-requests. It is not just for bugs, pre-populate it with feature
-descriptions so that potential contributors know what you would like them
-to work on.</li>
+<li>
+<strong>Must-have scope for scalability</strong> is that only the
+portions of a model instance which are actually accessed by ArgoUML
+should be brought into memory by Hibernate (using its standard
+session-level and second-level cache providers).
+</li>
+
 </ul>
 
-<p>What are the high-level assumptions or ground rules for the project?
 </p>
 
-<p>For example:
-</p>
-
+<p>
+<strong>Stretch goals</strong> goals include:
 <ul>
-<li> we will use programming language X on operating system Y for now.
-
-<li>We will, or will not, consider certain functional areas like
-internationalization, high security, concurrency, etc.  The list of
-functional areas will depend on what you are trying to do.
-
-<li>Try to keep this part short.
+<li>Using DBMS or Hibernate add-on capabilities equivalent to
+persistent savepoints or point-in-time recovery in order to implement
+<a href="http://argouml.tigris.org/issues/show_bug.cgi?id=1834">Undo
+support in ArgoUML</a>.  This requires more study in order to
+determine feasibility.</li>
 </ul>
+</p>
 
+<p>The following items are initially <strong>out of scope</strong>,
+but could be good candidates for follow-on or parallel efforts:
+<ul>
+
+<li>Supporting multiple concurrent readers and writers online against
+the same DBMS repository.  This could make sense for some development
+environments, but requires a lot of high level concurrency control,
+distributed notification, and merge support.  Some of the
+Configuration Item concepts from <a
+href="http://argouml.tigris.org/issues/show_bug.cgi?id=3497">traditional
+disconnected team development approaches</a> may be applicable here
+too.
+</li>
+
+<li>Using ArgoUML to create models for use as input to Enki/Hibernate.
+In fact, this already works (Eigenbase developers use ArgoUML as their
+modeling tool for generating DBMS metadata catalog persistence via
+Enki), but it's not related to this argouml-enki project, despite the
+name.</li>
+
+<li>Support for UML2 and related OMG standards.  This is definitely
+important, but it depends on adding corresponding support at the Enki
+level first.</li> 
+
+<li>Taking advantage of Enki's in-memory repository implementation as
+an alternative to the one from MDR.  The MDR codebase and
+documentation are no longer actively maintained by anyone, and the
+Enki codebase may be easier to work with, so this could be a good
+long-term migration path for ArgoUML's default model implementation.
+</li>
+
+</ul>
+</p>
+
+<p><strong>Project assumptions</strong> include:
+<ul>
+
+<li>As much of the existing argouml-mdr implementation as possible
+should be reused via sharing/extension in order to minimize code
+duplication.  This may require small modifications to argouml-mdr in
+order to facilitate extension; these should be undertaken in such a
+way that they do not destabilize the default non-Enki implementation
+in any way.</li>
+
+<li>It will be necessary to co-evolve Enki in order to add any support
+necessary to make the argouml-enki integration successful.  Once this
+is far enough along, specific releases of argouml-enki will be tied to
+specific releases of Enki, with all dependencies identified and
+carefully controlled (including second-order dependencies such as
+Hibernate).</li>
+
+<li>Once past the proof-of-concept phase, it will be necessary to
+modify some core portions of ArgoUML, e.g. to add the concept of a
+repository-backed project file.  Any such modifications should be
+undertaken via collaboration and review with the full ArgoUML user and
+developer community in order to avoid negative usability impact for
+existing in-memory use cases, as well as to obtain positive usability
+feedback for the new DBMS repository features.
+</ul>
+</p>
 
 <h3>Related resources</h3>
 
+<p>
 <ul>
-<li>Link to other stuff that you know about.  It will help you
-research requirements and provide a useful resource to potential
-contributors.</li>
 
-<li>Why reinvent the wheel? What is better about this wheel?  Is there
-any existing project that you can partner with or reuse?</li>
+<li><a href="http://pub.eigenbase.org/wiki/Enki">Enki home page</a>
+</li>
 
-<li>Where would you go to try to find potential contibutors?</li>
+<li><a href="http://www.eigenbase.org">Eigenbase home page</a> (umbrella
+project which includes Enki among a number of others)
+</li>
+
+<li><a href="http://argouml.tigris.org/googlessoc2008.html">ArgoUML
+Google Summer of Code 2008 page</a>, which describes the eUML model
+subsystem under development for ArgoUML.  In theory, this could be
+integrated with something like <a
+href="http://www.eclipse.org/modeling/emf/?project=teneo#teneo">Teneo</a>
+(also known as <a href="http://www.elver.org">Elver</a>) to produce an
+equivalent of argouml-enki.</li>
+
 </ul>
+</p>
 
 </body>
 </html>
