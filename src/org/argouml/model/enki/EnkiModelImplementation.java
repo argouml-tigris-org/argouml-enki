@@ -24,24 +24,7 @@
 
 package org.argouml.model.enki;
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.jmi.model.ModelPackage;
-import javax.jmi.model.MofPackage;
-import javax.jmi.reflect.RefPackage;
-import javax.jmi.xmi.MalformedXMIException;
 
 import org.apache.log4j.Logger;
 import org.argouml.model.ActivityGraphsFactory;
@@ -73,7 +56,6 @@ import org.argouml.model.PseudostateKind;
 import org.argouml.model.ScopeKind;
 import org.argouml.model.StateMachinesFactory;
 import org.argouml.model.StateMachinesHelper;
-import org.argouml.model.UUIDManager;
 import org.argouml.model.UmlException;
 import org.argouml.model.UmlFactory;
 import org.argouml.model.UmlHelper;
@@ -83,200 +65,163 @@ import org.argouml.model.VisibilityKind;
 import org.argouml.model.XmiReader;
 import org.argouml.model.XmiWriter;
 import org.argouml.model.mdr.MDRModelImplementation;
-import org.netbeans.api.mdr.CreationFailedException;
-import org.netbeans.api.mdr.MDRManager;
-import org.netbeans.api.mdr.MDRepository;
-import org.netbeans.api.xmi.XMIReader;
-import org.netbeans.api.xmi.XMIReaderFactory;
-import org.omg.uml.UmlPackage;
 
 /**
  * The handle to find all helper and factories.
  */
 public class EnkiModelImplementation implements ModelImplementation {
 
+    private ModelImplementation theMDRMI;
+    
     /**
-     * Logger.
+     * Create a new ModelImplementation that defers everything
+     * to the MDRModelImplementation.
+     *
+     * @throws UmlException
      */
-    private static final Logger LOG =
-        Logger.getLogger(EnkiModelImplementation.class);
-
-    private ModelImplementation MDRModelImplementation =
-	new MDRModelImplementation();
+    public EnkiModelImplementation() throws UmlException {
+	theMDRMI = new MDRModelImplementation();
+    }
 
     public ActivityGraphsFactory getActivityGraphsFactory() {
-	return MDRModelImplementation.getActivityGraphsFactory();
+	return theMDRMI.getActivityGraphsFactory();
     }
 
     public ActivityGraphsHelper getActivityGraphsHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getActivityGraphsHelper();
     }
 
     public AggregationKind getAggregationKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getAggregationKind();
     }
 
     public ChangeableKind getChangeableKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getChangeableKind();
     }
 
     public CollaborationsFactory getCollaborationsFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCollaborationsFactory();
     }
 
     public CollaborationsHelper getCollaborationsHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCollaborationsHelper();
     }
 
     public CommonBehaviorFactory getCommonBehaviorFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCommonBehaviorFactory();
     }
 
     public CommonBehaviorHelper getCommonBehaviorHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCommonBehaviorHelper();
     }
 
     public ConcurrencyKind getConcurrencyKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getConcurrencyKind();
     }
 
     public CopyHelper getCopyHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCopyHelper();
     }
 
     public CoreFactory getCoreFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCoreFactory();
     }
 
     public CoreHelper getCoreHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getCoreHelper();
     }
 
     public DataTypesFactory getDataTypesFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getDataTypesFactory();
     }
 
     public DataTypesHelper getDataTypesHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getDataTypesHelper();
     }
 
     public DiagramInterchangeModel getDiagramInterchangeModel() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getDiagramInterchangeModel();
     }
 
     public DirectionKind getDirectionKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getDirectionKind();
     }
 
     public ExtensionMechanismsFactory getExtensionMechanismsFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getExtensionMechanismsFactory();
     }
 
     public ExtensionMechanismsHelper getExtensionMechanismsHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getExtensionMechanismsHelper();
     }
 
     public Facade getFacade() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getFacade();
     }
 
     public MetaTypes getMetaTypes() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getMetaTypes();
     }
 
     public ModelEventPump getModelEventPump() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getModelEventPump();
     }
 
     public ModelManagementFactory getModelManagementFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getModelManagementFactory();
     }
 
     public ModelManagementHelper getModelManagementHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getModelManagementHelper();
     }
 
     public OrderingKind getOrderingKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getOrderingKind();
     }
 
     public PseudostateKind getPseudostateKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getPseudostateKind();
     }
 
     public ScopeKind getScopeKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getScopeKind();
     }
 
     public StateMachinesFactory getStateMachinesFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getStateMachinesFactory();
     }
 
     public StateMachinesHelper getStateMachinesHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getStateMachinesHelper();
     }
 
     public UmlFactory getUmlFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getUmlFactory();
     }
 
     public UmlHelper getUmlHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getUmlHelper();
     }
 
     public UseCasesFactory getUseCasesFactory() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getUseCasesFactory();
     }
 
     public UseCasesHelper getUseCasesHelper() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getUseCasesHelper();
     }
 
     public VisibilityKind getVisibilityKind() {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getVisibilityKind();
     }
 
     public XmiReader getXmiReader() throws UmlException {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getXmiReader();
     }
 
     public XmiWriter getXmiWriter(Object model, OutputStream stream,
 	    String version) throws UmlException {
-	// TODO: Auto-generated method stub
-	return null;
+	return theMDRMI.getXmiWriter(model, stream, version);
     }
 
     
