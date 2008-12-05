@@ -6,5 +6,19 @@
 	<classpathentry kind="src" path="/argouml-core-infra"/>
 	<classpathentry kind="src" path="/argouml-core-model"/>
 	<classpathentry kind="src" path="/argouml-core-model-mdr"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/argouml-app"/>
+	<classpathentry kind="lib" path="lib/asm.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-pool-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-1.2.0_03.jar"/>
+	<classpathentry kind="lib" path="lib/eigenbase-enki-0.1.0-src.jar"/>
+	<classpathentry kind="lib" path="lib/eigenbase-enki-0.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="lib/jta.jar"/>
+	<classpathentry kind="lib" path="lib/simple-jndi-0.11.4.1.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
