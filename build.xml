@@ -45,6 +45,13 @@ support for ArgoUML.
     <property name="argo.base.dir" value="${basedir}/../argouml"/>
     <property name="argo.root.dir" value="${argo.base.dir}/src"/>
     <property name="argo.app.dir" value="${argo.root.dir}/argouml-app"/>
+    <!-- Detect non-Eclipse setup first -->
+    <available file="${argo.base.dir}" 
+      property="argo.core-model-mdr.dir" 
+      value="${argo.root.dir}/argouml-core-model-mdr"/>
+    <!-- Otherwise assume Eclipse setup -->
+    <property name="argo.core-model-mdr.dir" 
+      value="${basedir}/../argouml-core-model-mdr"/>
 
     <!-- Try to figure out where main ArgoUML tools directory is -->
     <property name="tool.test.file" value="checkstyle/java.header"/>
@@ -97,7 +104,7 @@ support for ArgoUML.
 
     <property name="mof.file.dir" value="org/argouml/model/mdr/mof"/>
     <property name="xmi.file" 
-      value="${argo.base.dir}/src/argouml-core-model-mdr/src/${mof.file.dir}/01-02-15_Diff" />
+      value="${argo.core-model-mdr.dir}/src/${mof.file.dir}/01-02-15_Diff" />
 
     <!-- Configuration property file which tells us how to connect
          to DBMS persistence. -->
